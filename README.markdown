@@ -7,6 +7,10 @@ Trabalho de IA para Mestrado Profissional em Computação Aeronáutica ITA
 
 Decidimos sobre a divisão do trabalho e o toy problem:
 
- 1. Davi: RL...
+### Toy Problem: 
+Mario Bros NES
+
+### Divisão do Trabalho
+1. Davi: RL...
 2. Tiago: API
 3. Andrey: RL...
