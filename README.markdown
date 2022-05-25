@@ -3,8 +3,10 @@ Trabalho de IA para Mestrado Profissional em Computação Aeronáutica ITA
 
 
 
-#Decisão:
+## Dia 25/04/2022
 
-1. Davi: RL...
+Decidimos sobre a divisão do trabalho e o toy problem:
+
+ 1. Davi: RL...
 2. Tiago: API
 3. Andrey: RL...
