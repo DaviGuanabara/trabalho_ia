@@ -1,9 +1,37 @@
-# trabalho_ia
-Trabalho de IA para Mestrado Profissional em Computação Aeronáutica ITA
+# Trabalho de IA
+
+## Descrição
+
+Esse é o trabalho está sendo desenvolvido para as cadeiras de IA do Mestrado Profissional.
+
+Escopo: Aplicar RL em Mario Bros
+Data de entrega: xx/xx/xx
+Grupo:
+
+1. Andrey
+2. Davi
+3. Tiago
+
+## Conteúdos Relacionados
+
+Guia para aplicação de RL:
+https://towardsdatascience.com/a-beginners-guide-to-reinforcement-learning-with-a-mario-bros-example-fa0e0563aeb7
+
+Guia indicado pelo professor Marcos:
+https://pythonprogramming.net/introduction-reinforcement-learning-stable-baselines-3-tutorial/
+
+Site de possíveis jogos:
+https://www.gymlibrary.ml/#
+
+Blog sobre aplicação de RL em super mário:
+https://blog.paperspace.com/building-double-deep-q-network-super-mario-bros/
+
+Vídeo da aplicação:
+https://www.youtube.com/watch?v=qv6UVOQ0F44
 
 
-
-## Dia 25/04/2022
+## Histórico de decisões
+### Dia 25/04/2022
 
 Decidimos sobre a divisão do trabalho e o toy problem:
 
@@ -11,6 +39,7 @@ Decidimos sobre a divisão do trabalho e o toy problem:
 Mario Bros NES
 
 ### Divisão do Trabalho
-1. Davi: RL...
-2. Tiago: API
-3. Andrey: RL...
+
+Tiago: API
+
+Falta distribuir entre o Davi e o Andrey as seguintes RL: PPO e SAC
