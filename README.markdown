@@ -35,11 +35,19 @@ https://www.youtube.com/watch?v=qv6UVOQ0F44
 
 Decidimos sobre a divisão do trabalho e o toy problem:
 
-### Toy Problem: 
+#### Toy Problem: 
 Mario Bros NES
 
-### Divisão do Trabalho
+#### Divisão do Trabalho
 
 Tiago: API
 
 Falta distribuir entre o Davi e o Andrey as seguintes RL: PPO e SAC
+
+### Dia 06/06/2022
+
+Divisão de trabalho Atualizada!
+1. Andrey: IA RL PPO
+2. Davi: IA RL SAC
+3. Tiago: API do jogo 
+
