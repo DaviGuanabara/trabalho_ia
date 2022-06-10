@@ -5,7 +5,7 @@
 Esse é o trabalho está sendo desenvolvido para as cadeiras de IA do Mestrado Profissional.
 
 Escopo: Aplicar RL em Mario Bros
-Data de entrega: xx/xx/xx
+Data de entrega: 30/06/2022
 Grupo:
 
 1. Andrey
