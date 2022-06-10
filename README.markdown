@@ -51,3 +51,9 @@ Divisão de trabalho Atualizada!
 2. Davi: IA RL SAC
 3. Tiago: API do jogo 
 
+### Dia 10/06/2022
+
+Escolha do Simulador:
+Gym Retro
+https://openai.com/blog/gym-retro/
+
