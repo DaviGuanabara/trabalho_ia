@@ -57,3 +57,13 @@ Escolha do Simulador:
 Gym Retro
 https://openai.com/blog/gym-retro/
 
+
+#Instalação do Ambiente
+
+No mac.
+
+1. Instalar PIP
+2. Instalar SWIG (se não, dá problema com o GYM https://github.com/openai/spinningup/issues/32)
+3. Instalar GYM Atari - pip install gym[atari] (https://github.com/openai/gym) (para instalar ALL, precisa de licensa pro mujoco, https://amulyareddyk97.medium.com/mujoco-setup-on-macos-667ca5efee68, além do que dá moh problema de instalar ele).
+4. Instalar Baselines3 - pip install stable-baselines3[extra] (https://stable-baselines3.readthedocs.io/en/master/guide/install.html)
+
