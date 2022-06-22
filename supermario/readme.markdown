@@ -6,3 +6,9 @@
 
 3. Rodar na GPU
 4. Testar com o DQN no SuperMario
+
+## Dicas
+
+Rodar o tensorboard:
+$ tensorboard --logdir=logs
+Ele vai gerar um link para ser visualizado pelo navegador
