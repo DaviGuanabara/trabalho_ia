@@ -30,6 +30,16 @@ Vídeo da aplicação:
 https://www.youtube.com/watch?v=qv6UVOQ0F44
 
 
+## Instalação do Ambiente
+
+No mac.
+
+1. Instalar PIP
+2. Instalar SWIG (se não, dá problema com o GYM https://github.com/openai/spinningup/issues/32)
+3. Instalar GYM Atari - pip install gym[atari] (https://github.com/openai/gym) (para instalar ALL, precisa de licensa pro mujoco, https://amulyareddyk97.medium.com/mujoco-setup-on-macos-667ca5efee68, além do que dá moh problema de instalar ele).
+4. Instalar Baselines3 - pip install stable-baselines3[extra] (https://stable-baselines3.readthedocs.io/en/master/guide/install.html)
+5. Instalar Super Mario Bros - pip install gym-super-mario-bros (https://pypi.org/project/gym-super-mario-bros/)
+
 ## Histórico de decisões
 ### Dia 25/04/2022
 
@@ -58,12 +68,7 @@ Gym Retro
 https://openai.com/blog/gym-retro/
 
 
-#Instalação do Ambiente
+### Dia 22/06/2022
 
-No mac.
+Não conseguimos adaptar o SAC para um conjunto de ações discretas (necessárias para o super mario). Assim, vamos substituir o SAC para o DQN.
 
-1. Instalar PIP
-2. Instalar SWIG (se não, dá problema com o GYM https://github.com/openai/spinningup/issues/32)
-3. Instalar GYM Atari - pip install gym[atari] (https://github.com/openai/gym) (para instalar ALL, precisa de licensa pro mujoco, https://amulyareddyk97.medium.com/mujoco-setup-on-macos-667ca5efee68, além do que dá moh problema de instalar ele).
-4. Instalar Baselines3 - pip install stable-baselines3[extra] (https://stable-baselines3.readthedocs.io/en/master/guide/install.html)
-5. Instalar Super Mario Bros - pip install gym-super-mario-bros (https://pypi.org/project/gym-super-mario-bros/)
