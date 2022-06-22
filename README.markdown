@@ -43,6 +43,12 @@ No mac.
 ## Lista de melhorias:
 https://github.com/DaviGuanabara/trabalho_ia/tree/main/supermario
 
+## Dicas
+
+Rodar o tensorboard:
+$ tensorboard --logdir=logs
+Ele vai gerar um link para ser visualizado pelo navegador
+
 ## Histórico de decisões
 ### Dia 25/04/2022
 
