@@ -40,6 +40,9 @@ No mac.
 4. Instalar Baselines3 - pip install stable-baselines3[extra] (https://stable-baselines3.readthedocs.io/en/master/guide/install.html)
 5. Instalar Super Mario Bros - pip install gym-super-mario-bros (https://pypi.org/project/gym-super-mario-bros/)
 
+## Lista de melhorias:
+https://github.com/DaviGuanabara/trabalho_ia/tree/main/supermario
+
 ## Histórico de decisões
 ### Dia 25/04/2022
 
