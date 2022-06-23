@@ -21,31 +21,18 @@ from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 import manager
 
 
-env_name = 'SuperMarioBros-v0' #"BipedalWalker-v3"
-log_dir = "logs" #+ env_name
-model_dir = "models"# + env_name
+env_name = 'SuperMarioBros-v0'
+log_dir = "logs"
+model_dir = "models"
 timesteps = 1000
 models = ["PPO"]
 
 
-env = gym.make("BipedalWalker-v3")
-#env = Monitor(env, log_dir)
-#env.reset()
-
-
-#env = gym_super_mario_bros.make('SuperMarioBros-v0')
-#env = Monitor(env, log_dir)
-#env = JoypadSpace(env, SIMPLE_MOVEMENT)
-
-#env = Monitor(env, self.logdir)
-env.reset()
+#env = gym.make("BipedalWalker-v3")
+env = gym_super_mario_bros.make('SuperMarioBros-v0')
+env = JoypadSpace(env, SIMPLE_MOVEMENT)
 
 training_model = manager.train_model(env, model_dir, log_dir)
 
 for model_name in models:
     training_model.train(model_name, timesteps=timesteps)
-
-#training_model = utils.training_model("BipedalWalker-v3", "models/PPO", f"logs/PPO-{int(time.time())}")
-#training_model.train(PPO)
-#plot_results([log_dir], timesteps, results_plotter.X_TIMESTEPS, "SAC BipedalWalker")
-#plt.show()
