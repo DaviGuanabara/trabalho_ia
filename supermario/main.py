@@ -18,7 +18,7 @@ from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 
-import utils
+import manager
 
 
 env_name = 'SuperMarioBros-v0' #"BipedalWalker-v3"
@@ -28,19 +28,19 @@ timesteps = 1000
 models = ["PPO"]
 
 
-#env = gym.make("BipedalWalker-v3")
+env = gym.make("BipedalWalker-v3")
 #env = Monitor(env, log_dir)
 #env.reset()
 
 
-env = gym_super_mario_bros.make('SuperMarioBros-v0')
-env = Monitor(env, log_dir)
-env = JoypadSpace(env, SIMPLE_MOVEMENT)
+#env = gym_super_mario_bros.make('SuperMarioBros-v0')
+#env = Monitor(env, log_dir)
+#env = JoypadSpace(env, SIMPLE_MOVEMENT)
 
 #env = Monitor(env, self.logdir)
 env.reset()
 
-training_model = utils.training_model(env, model_dir, log_dir)
+training_model = manager.train_model(env, model_dir, log_dir)
 
 for model_name in models:
     training_model.train(model_name, timesteps=timesteps)
