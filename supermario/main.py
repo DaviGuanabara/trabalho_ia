@@ -66,7 +66,6 @@ timesteps = 1000
 #================================================================
 
 if enable_learning:
-
     for model_name in models:
         trainer = manager.Trainer(env_name_version, model_name, models_dir, log_dir)
         trainer.train(timesteps=timesteps)
