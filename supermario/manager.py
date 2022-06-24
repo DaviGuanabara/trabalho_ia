@@ -8,6 +8,7 @@ import os
 import sys
 import shutil
 import time
+import platform
 
 import gym
 import numpy as np
@@ -25,13 +26,15 @@ from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 
 
 def request_sudo():
-    euid = os.geteuid()
-    if euid != 0:
-        print("Script not started as root. Running sudo.")
-        args = ['sudo', sys.executable] + sys.argv + [os.environ]
-        # the next line replaces the currently-running process with the sudo
-        os.execlpe('sudo', *args)
-        #os.execlpe('sudo') #, *args)
+
+    if platform.system() not "Windows":
+        euid = os.geteuid()
+        if euid != 0:
+            print("Script not started as root. Running sudo.")
+            args = ['sudo', sys.executable] + sys.argv + [os.environ]
+            # the next line replaces the currently-running process with the sudo
+            os.execlpe('sudo', *args)
+            #os.execlpe('sudo') #, *args)
 
 class Environments(object):
 
