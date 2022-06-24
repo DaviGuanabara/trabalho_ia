@@ -27,7 +27,7 @@ from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 
 def request_sudo():
 
-    if platform.system() not "Windows":
+    if platform.system() is not "Windows":
         euid = os.geteuid()
         if euid != 0:
             print("Script not started as root. Running sudo.")
@@ -162,7 +162,18 @@ class Trainer(object):
 
     def __setup_model(self, model_name):
         model = Models().get_model(model_name)
-        self.model = model("MlpPolicy", self.env, verbose = 1, tensorboard_log = self.log_dir)
+        #Expected one of cpu, cuda, xpu, mkldnn, opengl, opencl, ideep, hip, ve, ort, mlc, xla, lazy, vulkan, meta, hpu device
+        device = "cpu"
+        #https://stackoverflow.com/questions/1854/python-what-os-am-i-running-on
+        #Mac = Darwin
+        if platform.system() is "Windows":
+            device = "cuda"
+
+        #elif platform.system() is "Darwin":
+        #    device = "meta"
+        # To Do: tá lançando erro
+
+        self.model = model("MlpPolicy", self.env, verbose = 1, tensorboard_log = self.log_dir, device=device)
 
 
     def prepare_dir(self, dir_path, remove_old_files):
@@ -207,6 +218,7 @@ class Executer(object):
     def __init__(self, env_name_version, models_dir, model_name):
 
         best_model_path = os.path.join(models_dir, model_name, 'best_model')
+        print("Collecting best model from:", best_model_path)
 
         self.env = Environments().get_environment(env_name_version)
         self.model = Models().get_model(model_name).load(best_model_path, self.env)

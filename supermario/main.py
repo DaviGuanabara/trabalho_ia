@@ -41,11 +41,11 @@ import manager
 # Configurações
 #================================================================
 
-#env_name_version = 'SuperMarioBros-v0'
-env_name_version = "BipedalWalker-v3"
+env_name_version = 'SuperMarioBros-v0'
+#env_name_version = "BipedalWalker-v3"
 
-models = ["PPO"]
-#models = ["DQN"]
+#models = ["PPO"]
+models = ["DQN"]
 #models = ["DQN", "PPO"]
 
 enable_learning = True
