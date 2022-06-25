@@ -42,11 +42,11 @@ import manager
 # Configurações
 #================================================================
 
-env_name_version = 'SuperMarioBros-v0'
-#env_name_version = "BipedalWalker-v3"
+#env_name_version = 'SuperMarioBros-v3'
+env_name_version = "BipedalWalker-v3"
 
-#models = ["PPO"]
-models = ["DQN"]
+models = ["PPO"]
+#models = ["DQN"]
 #models = ["DQN", "PPO"]
 
 enable_learning = True
@@ -58,12 +58,12 @@ Configurações Padrão
 
 log_dir = "logs"
 models_dir = "models"
-model_filename = '29000'
+#model_filename = '29000'
 
 #não colocar menos do que 1000, por algum motivo não salva o melhor modelo.
-timesteps = 100000
+#timesteps = 100000
 
-
+timesteps = 1000
 #================================================================
 # Execução do código.
 #================================================================
