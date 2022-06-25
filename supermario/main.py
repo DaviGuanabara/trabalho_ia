@@ -30,6 +30,7 @@ from stable_baselines3.common.results_plotter import load_results, ts2xy, plot_r
 from stable_baselines3.common.noise import NormalActionNoise
 from stable_baselines3.common.callbacks import BaseCallback
 
+
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
@@ -41,15 +42,15 @@ import manager
 # Configurações
 #================================================================
 
-#env_name_version = 'SuperMarioBros-v0'
-env_name_version = "BipedalWalker-v3"
+env_name_version = 'SuperMarioBros-v0'
+#env_name_version = "BipedalWalker-v3"
 
 models = ["PPO"]
 #models = ["DQN"]
 #models = ["DQN", "PPO"]
 
 enable_learning = True
-enable_executing = True
+enable_executing = False
 
 '''
 Configurações Padrão
@@ -57,15 +58,18 @@ Configurações Padrão
 
 log_dir = "logs"
 models_dir = "models"
+model_filename = '29000'
 
 #não colocar menos do que 1000, por algum motivo não salva o melhor modelo.
-timesteps = 1000
+timesteps = 100000
+
 
 #================================================================
 # Execução do código.
 #================================================================
 
 if enable_learning:
+
     for model_name in models:
         trainer = manager.Trainer(env_name_version, model_name, models_dir, log_dir)
         trainer.train(timesteps=timesteps)
@@ -73,5 +77,5 @@ if enable_learning:
 
 if enable_executing:
     for model_name in models:
-        executer = manager.Executer(env_name_version, models_dir, model_name)
+        executer = manager.Executer(env_name_version, models_dir, model_name, model_filename)
         executer.execute(10)
