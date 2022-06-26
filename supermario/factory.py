@@ -18,6 +18,7 @@ from nes_py.wrappers import JoypadSpace
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 from gym.wrappers import GrayScaleObservation
 from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv
+from CustomWrappers import CustomReward, CustomMonitor
 
 
 
@@ -26,15 +27,17 @@ class Environments(object):
     def __init__(self):
         envs = {}
         envs["SuperMarioBros"] = (self.__superMarioBros, {"policy": "CnnPolicy"})
-        envs["default"] = (self.__gen_environment, {"policy": "MlpPolicy"})
+        envs["default"] = (self.__gen_default_environment, {"policy": "MlpPolicy"})
 
         self.envs = envs
 
-    def __superMarioBros(self, model_name, log_dir):
+    def __superMarioBros(self, model_name, log_dir, enable_monitor=False):
         env = gym_super_mario_bros.make(model_name ) #'SuperMarioBros-v0')
         env = JoypadSpace(env, SIMPLE_MOVEMENT)
 
-        env = Monitor(env, log_dir)
+        if enable_monitor:
+            env = Monitor(env, log_dir)
+            #env = CustomMonitor(env, log_dir)
 
         env = GrayScaleObservation(env, keep_dim=True)
         env = DummyVecEnv([lambda: env])
@@ -42,18 +45,28 @@ class Environments(object):
 
         return env
 
-    def __gen_environment(self, env_name_version, log_dir):
+    def __gen_default_environment(self, env_name_version, log_dir, enable_monitor=False):
+        print("Entrou no gen default")
         env = gym.make(env_name_version)
-        env = Monitor(env, log_dir)
+
+        if enable_monitor:
+            print("Ativou o monitor")
+            env = Monitor(env, log_dir)
+
+        print("Retornar o ambiente")
         return env
 
-    def get_environment(self, env_name_version, log_dir):
+    def get_environment(self, env_name_version, log_dir, enable_monitor=False):
+        print("env_name", env_name_version)
         env_name = env_name_version.split("-")[0]
 
-        if env_name not in self.envs:
-            return self.envs["default"][0](env_name_version, log_dir)
 
-        return self.envs[env_name][0](env_name_version, log_dir)
+        if env_name not in self.envs:
+            print("env_name not in envs")
+            env_name = "default"
+
+        print("env_name", env_name)
+        return self.envs[env_name][0](env_name_version, log_dir, enable_monitor=enable_monitor)
 
     def get_env_info(self, env_name_version):
         env_name = env_name_version.split("-")[0]
@@ -67,22 +80,35 @@ class Environments(object):
 class Models(object):
     def __init__(self):
         self.rl_map = {}
-        self.rl_map["PPO"] = self.__create_ppo
-        self.rl_map["SAC"] = self.__create_sac
-        self.rl_map["DQN"] = self.__create_dqn
+        self.rl_map["PPO"] = (self.__create_ppo, self.__load_ppo)
+        self.rl_map["SAC"] = (self.__create_sac, self.__load_sac)
+        self.rl_map["DQN"] = (self.__create_dqn, self.__load_dqn)
 
-    def __create_ppo(self, env, env_info={"policy": "MlpPolicy"}, tensorboard_log= "logs", learning_rate="0.000001", n_steps=1024, create_eval_env=True):
+    def __create_ppo(self, env, env_info={"policy": "MlpPolicy"}, tensorboard_log=None, learning_rate="0.0003", n_steps=2048, create_eval_env=False):
         rl_algorithm = PPO
         return rl_algorithm(env_info["policy"], env, verbose=1, tensorboard_log=tensorboard_log, learning_rate=learning_rate, n_steps=n_steps, create_eval_env=create_eval_env)
 
-    def __create_dqn(self, env, env_info={"policy": "MlpPolicy"}, tensorboard_log="logs", learning_rate="0.000001", n_steps=1024, create_eval_env=True):
+    def __create_dqn(self, env, env_info={"policy": "MlpPolicy"}, tensorboard_log=None, learning_rate="0.0001", n_steps=1024, create_eval_env=False):
         rl_algorithm = DQN
         return rl_algorithm(env_info["policy"], env, verbose=1, tensorboard_log=tensorboard_log, learning_rate=learning_rate, create_eval_env=create_eval_env)
 
-    def __create_sac(self, env, env_info={"policy": "MlpPolicy"}, tensorboard_log="logs", learning_rate="0.000001", n_steps=1024, create_eval_env=True):
+    def __create_sac(self, env, env_info={"policy": "MlpPolicy"}, tensorboard_log=None, learning_rate="0.0003", n_steps=1024, create_eval_env=False):
         rl_algorithm = SAC
         return rl_algorithm(env_info["policy"], env, verbose=1, tensorboard_log=tensorboard_log, learning_rate=learning_rate, create_eval_env=create_eval_env)
 
+
+
+    def __load_ppo(self, model_storage_path, env):
+        rl_algorithm = PPO
+        return rl_algorithm.load(model_storage_path, env)
+
+    def __load_dqn(self, model_storage_path, env):
+        rl_algorithm = DQN
+        return rl_algorithm.load(model_storage_path, env)
+
+    def __load_sac(self, model_storage_path, env):
+        rl_algorithm = SAC
+        return rl_algorithm.load(model_storage_path, env)
 
     def create_model(self, model_name, env, env_info={"policy": "MlpPolicy"}, tensorboard_log="logs", learning_rate="0.000001", n_steps=1024, create_eval_env=True):
 
@@ -90,8 +116,15 @@ class Models(object):
             print("Model '", model_name, "' not found")
             return None
 
-        return self.rl_map[model_name](env, env_info, tensorboard_log=tensorboard_log, learning_rate=learning_rate, n_steps=n_steps, create_eval_env=create_eval_env)
+        return self.rl_map[model_name][0](env, env_info, tensorboard_log=tensorboard_log, learning_rate=learning_rate, n_steps=n_steps, create_eval_env=create_eval_env)
 
+    def load_model(self, model_name, model_storage_path, env):
+
+        if model_name not in self.rl_map:
+            print("Model '", model_name, "' not found")
+            return None
+
+        return self.rl_map[model_name][1](model_storage_path, env)
 
 
 

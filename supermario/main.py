@@ -42,15 +42,17 @@ import manager
 # Configurações
 #================================================================
 
-#env_name_version = 'SuperMarioBros-v3'
-env_name_version = "BipedalWalker-v3"
+env_name_version = 'SuperMarioBros-v3'
+#env_name_version = "BipedalWalker-v3"
 
-models = ["PPO"]
-#models = ["DQN"]
+#models = ["PPO"]
+models = ["DQN"]
 #models = ["DQN", "PPO"]
+#models = ["SAC", "PPO"]
 
-enable_learning = True
-enable_executing = False
+
+enable_learning = False
+enable_executing = True
 
 '''
 Configurações Padrão
@@ -58,8 +60,8 @@ Configurações Padrão
 
 log_dir = "logs"
 models_dir = "models"
-#model_filename = '29000'
-
+model_filename = '10000'
+#model_filename = 'best_model'
 #não colocar menos do que 1000, por algum motivo não salva o melhor modelo.
 #timesteps = 100000
 
@@ -77,5 +79,6 @@ if enable_learning:
 
 if enable_executing:
     for model_name in models:
-        executer = manager.Executer(env_name_version, models_dir, model_name, model_filename)
+        print("Executing", env_name_version, "on", model_name)
+        executer = manager.Executer(env_name_version, models_dir, model_name, model_filename=model_filename)
         executer.execute(10)

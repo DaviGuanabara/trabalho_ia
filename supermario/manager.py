@@ -27,7 +27,7 @@ from stable_baselines3.common.vec_env import VecFrameStack, DummyVecEnv
 
 from factory import Environments, Timer, Models
 from utils import request_sudo, prepare_dir
-
+from CustomWrappers import CustomReward
 
 
 
@@ -57,7 +57,7 @@ class Trainer(object):
     def __setup_env(self, env_name_version):
 
         env_manager = Environments()
-        env = env_manager.get_environment(env_name_version, self.log_dir)
+        env = env_manager.get_environment(env_name_version, self.log_dir, enable_monitor=True)
         env_info = env_manager.get_env_info(env_name_version)
 
         env.reset()
@@ -99,11 +99,19 @@ class Executer(object):
 
     def __init__(self, env_name_version, models_dir, model_name, model_filename='best_model', log_dir=''):
 
-        best_model_path = os.path.join(models_dir, model_name, model_filename)
 
-        self.env = Environments().get_environment(env_name_version, log_dir)
-        self.model = Models().get_model(model_name).load(best_model_path, self.env)
 
+
+        env_manager = Environments()
+        env = env_manager.get_environment(env_name_version, log_dir)
+        env_info = env_manager.get_env_info(env_name_version)
+        #self.model = Models().get_model(model_name).load(best_model_path, self.env)
+
+        model_path = os.path.join(models_dir, model_name, model_filename)
+        model = Models().load_model(model_name, model_path, env)
+
+        self.env = env
+        self.model = model
 
     def execute(self, episodes):
         for ep in range(episodes):
@@ -114,6 +122,7 @@ class Executer(object):
 
             action, _ = self.model.predict(np.copy(obs))
             obs, reward, done, info = self.env.step(action)
+
             self.env.render()
             i += 1
 
