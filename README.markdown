@@ -17,6 +17,9 @@ Apresentação: https://docs.google.com/presentation/d/17BRWOBCa9FX8glRyxFHZnFeN
 
 ## Conteúdos Relacionados
 
+#Mais ambientes
+https://github.com/clvrai/awesome-rl-envs
+
 Dicas Stable Baselines 3
 https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html
 
