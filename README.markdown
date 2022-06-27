@@ -20,6 +20,12 @@ Apresentação: https://docs.google.com/presentation/d/17BRWOBCa9FX8glRyxFHZnFeN
 Dicas Stable Baselines 3
 https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html
 
+Stable Baselines 3 Zoo:
+https://github.com/DLR-RM/rl-baselines3-zoo
+
+Stable Baselines 3 GitHub:
+https://github.com/Stable-Baselines-Team/stable-baselines3-contrib
+
 Guia para aplicação de RL:
 https://towardsdatascience.com/a-beginners-guide-to-reinforcement-learning-with-a-mario-bros-example-fa0e0563aeb7
 
