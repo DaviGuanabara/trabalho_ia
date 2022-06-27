@@ -17,6 +17,9 @@ Apresentação: https://docs.google.com/presentation/d/17BRWOBCa9FX8glRyxFHZnFeN
 
 ## Conteúdos Relacionados
 
+Dicas Stable Baselines 3
+https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html
+
 Guia para aplicação de RL:
 https://towardsdatascience.com/a-beginners-guide-to-reinforcement-learning-with-a-mario-bros-example-fa0e0563aeb7
 
