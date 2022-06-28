@@ -41,55 +41,8 @@ class CustomReward(Wrapper):
         self.logger.record('reward', reward)
         return state, reward, done, info
 
-class CustomMonitor(Wrapper):
-    def __init__(
-        self,
-        env: gym.Env,
-        filename: Optional[str] = None,
-        allow_early_resets: bool = True,
-        reset_keywords: Tuple[str, ...] = (),
-        info_keywords: Tuple[str, ...] = (),
-    ):
-        super().__init__(env=env)
-        self.t_start = time.time()
-        if filename is not None:
-            self.results_writer = ResultsWriter(
-                filename,
-                header={"t_start": self.t_start, "env_id": env.spec and env.spec.id},
-                extra_keys=reset_keywords + info_keywords,
-            )
-        else:
-            self.results_writer = None
-        self.reset_keywords = reset_keywords
-        self.info_keywords = info_keywords
-        self.allow_early_resets = allow_early_resets
-        self.rewards = None
-        self.needs_reset = True
-        self.episode_returns = []
-        self.episode_lengths = []
-        self.episode_times = []
-        self.total_steps = 0
-        self.current_reset_info = {}  # extra info about the current episode, that was passed in during reset()
+class CustomMonitor(Monitor):
 
-    def reset(self, **kwargs) -> GymObs:
-        """
-        Calls the Gym environment reset. Can only be called if the environment is over, or if allow_early_resets is True
-        :param kwargs: Extra keywords saved for the next episode. only if defined by reset_keywords
-        :return: the first observation of the environment
-        """
-        if not self.allow_early_resets and not self.needs_reset:
-            raise RuntimeError(
-                "Tried to reset an environment before done. If you want to allow early resets, "
-                "wrap your env with Monitor(env, path, allow_early_resets=True)"
-            )
-        self.rewards = []
-        self.needs_reset = False
-        for key in self.reset_keywords:
-            value = kwargs.get(key)
-            if value is None:
-                raise ValueError(f"Expected you to pass keyword argument {key} into reset")
-            self.current_reset_info[key] = value
-        return self.env.reset(**kwargs)
 
     def step(self, action: Union[np.ndarray, int]) -> GymStepReturn:
         """
@@ -102,7 +55,9 @@ class CustomMonitor(Wrapper):
         observation, reward, done, info = self.env.step(action)
         self.rewards.append(reward)
         #print("Step in custom_monitor is been executed correctly")
-        #print(self.rewards)
+
+        #print(done)
+        #print(self.env._get_done())
         if done:
             print("Episode done")
             print(self.rewards)
@@ -122,41 +77,7 @@ class CustomMonitor(Wrapper):
         self.total_steps += 1
         return observation, reward, done, info
 
-    def close(self) -> None:
-        """
-        Closes the environment
-        """
-        super().close()
-        if self.results_writer is not None:
-            self.results_writer.close()
 
-    def get_total_steps(self) -> int:
-        """
-        Returns the total number of timesteps
-        :return:
-        """
-        return self.total_steps
-
-    def get_episode_rewards(self) -> List[float]:
-        """
-        Returns the rewards of all the episodes
-        :return:
-        """
-        return self.episode_returns
-
-    def get_episode_lengths(self) -> List[int]:
-        """
-        Returns the number of timesteps of all the episodes
-        :return:
-        """
-        return self.episode_lengths
-
-    def get_episode_times(self) -> List[float]:
-        """
-        Returns the runtime in seconds of all the episodes
-        :return:
-        """
-        return self.episode_times
 
 class LoadMonitorResultsError(Exception):
     """

@@ -34,12 +34,12 @@ from CustomWrappers import CustomReward
 class Trainer(object):
 
 
-    def __init__(self, env_name_version, model_name, models_dir, log_dir, remove_old_files = True):
+    def __init__(self, env_name_version, model_name, models_dir, log_dir, remove_old_files = True, learning_rate=0.000001):
 
         self.log_dir, self.models_dir = self.__setup_dirs(models_dir, log_dir, model_name, remove_old_files)
 
         self.env, env_info = self.__setup_env(env_name_version)
-        self.model = self.__setup_model(model_name, self.env, env_info, self.log_dir)
+        self.model = self.__setup_model(model_name, self.env, env_info, self.log_dir, learning_rate=learning_rate)
 
         self.model_name = model_name
         self.elapsed_time = 0
@@ -89,7 +89,7 @@ class Trainer(object):
             self.model.save(file_path)
 
             timer.mark_end_episode()
-            timer.print_cyle_info(learning_episodes_number, current_episode)
+            timer.print_cyle_info(learning_episodes_number - 1, current_episode)
 
         #self.env.ResultsWriter()
         self.env.close()

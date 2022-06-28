@@ -27,6 +27,7 @@ class Environments(object):
     def __init__(self):
         envs = {}
         envs["SuperMarioBros"] = (self.__superMarioBros, {"policy": "CnnPolicy"})
+        envs["CarRacing"] = (self.__gen_default_environment, {"policy": "CnnPolicy"})
         envs["default"] = (self.__gen_default_environment, {"policy": "MlpPolicy"})
 
         self.envs = envs
@@ -46,26 +47,20 @@ class Environments(object):
         return env
 
     def __gen_default_environment(self, env_name_version, log_dir, enable_monitor=False):
-        print("Entrou no gen default")
         env = gym.make(env_name_version)
 
         if enable_monitor:
-            print("Ativou o monitor")
             env = Monitor(env, log_dir)
 
-        print("Retornar o ambiente")
         return env
 
     def get_environment(self, env_name_version, log_dir, enable_monitor=False):
-        print("env_name", env_name_version)
+        print("Ambiente:", env_name_version)
         env_name = env_name_version.split("-")[0]
 
-
         if env_name not in self.envs:
-            print("env_name not in envs")
             env_name = "default"
 
-        print("env_name", env_name)
         return self.envs[env_name][0](env_name_version, log_dir, enable_monitor=enable_monitor)
 
     def get_env_info(self, env_name_version):

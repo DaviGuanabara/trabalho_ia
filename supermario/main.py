@@ -37,22 +37,40 @@ from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 
 import manager
 
+#================================================================
+# perfils
+#================================================================
+
+perfils = {}
+perfils["SuperMario"] = {}
+perfils["SuperMario"]["env_name_version"] = 'SuperMarioBros-v3'
+perfils["SuperMario"]["models"] = ["DQN", "PPO"]
+perfils["SuperMario"]["learning_rate"] = 0.01
+
+#CarRacing is a discrete action space environment
+perfils["CarRacing"] = {}
+perfils["CarRacing"]["env_name_version"] = 'CarRacing-v0' #CarRacing-v1 is deprecated
+perfils["CarRacing"]["models"] = ["SAC", "PPO"]
+perfils["CarRacing"]["learning_rate"] = 0.01
+
+perfils["BipedalWalker"] = {}
+perfils["BipedalWalker"]["env_name_version"] = 'BipedalWalker-v3'
+perfils["BipedalWalker"]["models"] = ["SAC", "PPO"]
+#perfils["BipedalWalker"]["models"] = ["PPO"]
+perfils["BipedalWalker"]["learning_rate"] = 10 ** -6
 
 #================================================================
 # Configurações
 #================================================================
 
-env_name_version = 'SuperMarioBros-v3'
-#env_name_version = "BipedalWalker-v3"
+perfil = perfils["BipedalWalker"]
 
-#models = ["PPO"]
-models = ["DQN"]
-#models = ["DQN", "PPO"]
-#models = ["SAC", "PPO"]
+env_name_version = perfil["env_name_version"]
+models = perfil["models"]
 
 
-enable_learning = False
-enable_executing = True
+enable_learning = True
+enable_executing = False
 
 '''
 Configurações Padrão
@@ -60,12 +78,14 @@ Configurações Padrão
 
 log_dir = "logs"
 models_dir = "models"
-model_filename = '10000'
+model_filename = 'best_model'
 #model_filename = 'best_model'
 #não colocar menos do que 1000, por algum motivo não salva o melhor modelo.
 #timesteps = 100000
 
-timesteps = 1000
+timesteps = 500_000
+learning_episodes_number = 5
+learning_rate = perfil["learning_rate"]
 #================================================================
 # Execução do código.
 #================================================================
@@ -73,8 +93,8 @@ timesteps = 1000
 if enable_learning:
 
     for model_name in models:
-        trainer = manager.Trainer(env_name_version, model_name, models_dir, log_dir)
-        trainer.train(timesteps=timesteps)
+        trainer = manager.Trainer(env_name_version, model_name, models_dir, log_dir, learning_rate=learning_rate)
+        trainer.train(timesteps=timesteps, learning_episodes_number=learning_episodes_number)
 
 
 if enable_executing:
