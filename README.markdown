@@ -12,7 +12,22 @@ Grupo:
 2. Davi
 3. Tiago
 
+Relatório: https://onedrive.live.com/edit.aspx?resid=204284DD53F1A1E2!2129461&ithint=file%2cdocx&authkey=!AKDXhfOaPectlaM //
+Apresentação: https://docs.google.com/presentation/d/17BRWOBCa9FX8glRyxFHZnFeN3B5pfAc9ExwirHoWh5w/edit?usp=sharing 
+
 ## Conteúdos Relacionados
+
+#Mais ambientes
+https://github.com/clvrai/awesome-rl-envs
+
+Dicas Stable Baselines 3
+https://stable-baselines3.readthedocs.io/en/master/guide/rl_tips.html
+
+Stable Baselines 3 Zoo:
+https://github.com/DLR-RM/rl-baselines3-zoo
+
+Stable Baselines 3 GitHub:
+https://github.com/Stable-Baselines-Team/stable-baselines3-contrib
 
 Guia para aplicação de RL:
 https://towardsdatascience.com/a-beginners-guide-to-reinforcement-learning-with-a-mario-bros-example-fa0e0563aeb7
