@@ -165,3 +165,102 @@ def load_results(path: str) -> pandas.DataFrame:
     data_frame.reset_index(inplace=True)
     data_frame["t"] -= min(header["t_start"] for header in headers)
     return data_frame
+
+
+
+class MarioRescale84x84(gym.ObservationWrapper):
+    """
+    Downsamples/Rescales each frame to size 84x84 with greyscale
+    """
+    def __init__(self, env=None):
+        super(MarioRescale84x84, self).__init__(env)
+        self.observation_space = gym.spaces.Box(low=0, high=255, shape=(84, 84, 1), dtype=np.uint8)
+
+    def observation(self, obs):
+        return MarioRescale84x84.process(obs)
+
+    @staticmethod
+    def process(frame):
+        if frame.size == 240 * 256 * 3:
+            img = np.reshape(frame, [240, 256, 3]).astype(np.float32)
+        else:
+            assert False, "Unknown resolution."
+        # image normalization on RBG
+        img = img[:, :, 0] * 0.299 + img[:, :, 1] * 0.587 + img[:, :, 2] * 0.114
+        resized_screen = cv2.resize(img, (84, 110), interpolation=cv2.INTER_AREA)
+        x_t = resized_screen[18:102, :]
+        x_t = np.reshape(x_t, [84, 84, 1])
+        return x_t.astype(np.uint8)
+
+
+class PixelNormalization(gym.ObservationWrapper):
+    """
+    Normalize pixel values in frame --> 0 to 1
+    """
+    def observation(self, obs):
+        return np.array(obs).astype(np.float32) / 255.0
+
+class HideHudWrapper(ObservationWrapper):
+    """
+    Hide the hud changing all pixels in the top of the screen to black.
+    Change every observation.
+    """
+    def __init__(self, env):
+        super().__init__(env)
+        self.env = env
+
+    def observation(self, observation):
+        observation[0:32, :, :] = 0
+        observation[:, :, :] = observation[:, :, :] / 255.
+        return observation
+
+
+# An updated version of the EpisodicLifeEnv wrapper from RLLib which is
+# compatible with the SuperMarioBros environments.
+class EpisodicLifeEnv(gym.Wrapper):
+    def __init__(self, env):
+        """Make end-of-life == end-of-episode, but only reset on true game
+        over. Done by DeepMind for the DQN and co. since it helps value
+        estimation.
+        """
+        gym.Wrapper.__init__(self, env)
+        self.lives = 0
+        self.was_real_done = True
+        self._current_score = 0
+
+
+    def step(self, action):
+        obs, reward, done, info = self.env.step(action)
+        self.was_real_done = done
+        # check current lives, make loss of life terminal,
+        # then update lives to handle bonus lives
+        lives = self.env.unwrapped._life
+        if self.lives > lives > 0:
+            # for Qbert sometimes we stay in lives == 0 condtion for a few fr
+            # so its important to keep lives > 0, so that we only reset once
+            # the environment advertises done.
+            done = True
+        self.lives = lives
+
+        reward += (info['score'] - self._current_score) / 40.0
+        self._current_score = info['score']
+        if done:
+            #print('DONE')
+            if info['flag_get']:
+                reward += 350.0
+            else:
+                reward -= 0.0
+        return obs, reward/100, done, info
+
+    def reset(self, **kwargs):
+        """Reset only when lives are exhausted.
+        This way all states are still reachable even though lives are episodic,
+        and the learner need not know about any of this behind-the-scenes.
+        """
+        if self.was_real_done:
+            obs = self.env.reset(**kwargs)
+        else:
+            # no-op step to advance from terminal/lost life state
+            obs, _, _, _ = self.env.step(0)
+        self.lives = self.env.unwrapped._life
+        return obs

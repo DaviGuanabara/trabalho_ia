@@ -39,8 +39,8 @@ class Environments(object):
         if enable_monitor:
             env = Monitor(env, log_dir)
             #env = CustomMonitor(env, log_dir)
-
-        env = GrayScaleObservation(env, keep_dim=True)
+        env = EpisodicLifeEnv(env)
+        env = MarioRescale84x84(env)
         env = DummyVecEnv([lambda: env])
         env = VecFrameStack(env, 6, channels_order='last')
 
