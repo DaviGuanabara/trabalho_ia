@@ -12,8 +12,9 @@ Grupo:
 2. Davi
 3. Tiago
 
-Relatório: https://onedrive.live.com/edit.aspx?resid=204284DD53F1A1E2!2129461&ithint=file%2cdocx&authkey=!AKDXhfOaPectlaM //
-Apresentação: https://docs.google.com/presentation/d/17BRWOBCa9FX8glRyxFHZnFeN3B5pfAc9ExwirHoWh5w/edit?usp=sharing 
+Relatório: https://onedrive.live.com/edit.aspx?resid=204284DD53F1A1E2!2129461&ithint=file%2cdocx&authkey=!AKDXhfOaPectlaM \\
+Apresentação: https://docs.google.com/presentation/d/17BRWOBCa9FX8glRyxFHZnFeN3B5pfAc9ExwirHoWh5w/edit?usp=sharing \\
+Modelos Treinados: https://drive.google.com/drive/folders/1-Sa4U-pps3cJLzbkUTkqVJZ1RtqDV6PK?usp=sharing
 
 ## Conteúdos Relacionados
 
